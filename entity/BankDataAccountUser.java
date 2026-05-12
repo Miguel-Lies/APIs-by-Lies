@@ -31,6 +31,6 @@ public class BankDataAccountUser {
     @Column(name = "password",length = 20,nullable = false)
     private String password;
 
-    @Column(name = "data_of_birth",nullable = false)
-    private LocalDate dataOfBirth;
+    @Column(name = "date_of_birth",nullable = false)
+    private LocalDate dateOfBirth;
 }
