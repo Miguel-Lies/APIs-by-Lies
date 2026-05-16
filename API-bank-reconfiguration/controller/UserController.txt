@@ -23,11 +23,11 @@ public class UserController {
 
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteUser(
-            @PathVariable Integer id,
-            @RequestBody DeleteUserDTO deleteUserDTO){
-        userUervice.deleteInformation(id,deleteUserDTO.password());
+            @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7);
+        userService.deleteInformation(token);
         return ResponseEntity.ok().build();
     }
 }
