@@ -36,7 +36,7 @@ public class TransferService {
 
     @Transactional
     public void transferByNumber(Integer senderId, String receiverNumber, BigDecimal amount) {
-        BankDataAccountUser receiver = accountUserRepository.findByNumber(receiverNumber)
+        BankDataAccountUser receiver = accountUserRepository.findByNumberOfUser(receiverNumber)
                 .orElseThrow(() -> new NotFoundUserException("Receiver not found."));
 
         executeCoreTransfer(senderId, receiver, amount);

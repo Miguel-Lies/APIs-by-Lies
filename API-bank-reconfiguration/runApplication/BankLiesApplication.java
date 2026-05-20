@@ -1,4 +1,4 @@
-package com.enterprise.bank_lies;
+package com.enterprise.bank_lies.runApplication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

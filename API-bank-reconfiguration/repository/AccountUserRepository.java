@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface AccountUserRepository extends JpaRepository<BankDataAccountUser,Integer> {
     Optional<BankDataAccountUser> findByEmail(String email);
+    Optional<BankDataAccountUser> findByNumberOfUser(String number);
 }

@@ -3,12 +3,13 @@ package com.enterprise.bank_lies.service;
 import com.enterprise.bank_lies.dto.UserDTO;
 import com.enterprise.bank_lies.entity.AddressOfUser;
 import com.enterprise.bank_lies.entity.BankDataAccountUser;
-import com.enterprise.bank_lies.exceptions.InvalidPasswordException;
 import com.enterprise.bank_lies.exceptions.NotFoundUserException;
 import com.enterprise.bank_lies.repository.AccountUserRepository;
 import com.enterprise.bank_lies.repository.AddressRepository;
+import com.enterprise.bank_lies.configs.AccessToken;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,10 +21,16 @@ public class UserService {
     @Autowired
     AddressRepository repositoryAddress;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    AccessToken acessCode;
+
     @Transactional
-    public void toCreateAccount(UserDTO userDTO){
-        BankDataAccountUser bankDataAccountUser=new BankDataAccountUser();
-        AddressOfUser addressOfUser=new AddressOfUser();
+    public void toCreateAccount(UserDTO userDTO) {
+        BankDataAccountUser bankDataAccountUser = new BankDataAccountUser();
+        AddressOfUser addressOfUser = new AddressOfUser();
 
         bankDataAccountUser.setName(userDTO.getName());
         bankDataAccountUser.setEmail(userDTO.getEmail());
@@ -43,16 +50,13 @@ public class UserService {
         repositoryAddress.save(addressOfUser);
     }
 
-    public void deleteInformation(Integer id, String password){
+    @Transactional
+    public void deleteInformation(String token) {
+        String username = acessCode.getUsername(token);
+        BankDataAccountUser user = repositoryAccountUser.findByEmail(username)
+                .orElseThrow(() -> new NotFoundUserException("Not found user."));
 
-        BankDataAccountUser bankDataAccountUser=repositoryAccountUser.findById(id)
-                .orElseThrow(()-> new NotFoundUserException("Not found user."));
-
-        if(!password.equals(bankDataAccountUser.getPassword())) {
-            throw new InvalidPasswordException("Invalid password, try again.");
-        }
-            repositoryAccountUser.deleteById(id);
-            repositoryAddress.deleteById(id);
-        }
+        repositoryAccountUser.deleteById(user.getId());
+        repositoryAddress.deleteById(user.getId());
     }
-
+}
