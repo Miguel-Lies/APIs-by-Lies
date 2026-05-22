@@ -20,7 +20,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthentication extends OncePerRequestFilter {
 
-    private final AccessToken acessCode;
+    private final AccessToken accessToken;
     private final UserDetailsService userDetailsService;
 
     @Override
@@ -31,9 +31,9 @@ public class JwtAuthentication extends OncePerRequestFilter {
 
         if (StringUtils.hasText(authorizationHeader)&& authorizationHeader.startsWith("Bearer ")){
 
-            String code=authorizationHeader.substring(7);
-            if (acessCode.isTokenValid(code)){
-                String username=acessCode.getUsername(code);
+            String token=authorizationHeader.substring(7);
+            if (accessToken.isTokenValid(token)){
+                String username=accessToken.getUsername(token);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationCode=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationCode);
