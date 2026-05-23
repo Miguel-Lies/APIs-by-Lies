@@ -2,7 +2,6 @@ package com.enterprise.bank_lies.controller;
 
 import com.enterprise.bank_lies.dto.UserDTO;
 import com.enterprise.bank_lies.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +10,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
+    final
     UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<Void> toCreateUser(

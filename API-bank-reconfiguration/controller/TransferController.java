@@ -2,7 +2,6 @@ package com.enterprise.bank_lies.controller;
 
 import com.enterprise.bank_lies.dto.TransferDTO;
 import com.enterprise.bank_lies.service.TransferService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/transfers")
 public class TransferController {
 
-    @Autowired
+    final
     TransferService transferService;
+
+    public TransferController(TransferService transferService) {
+        this.transferService = transferService;
+    }
 
     @PostMapping("/number/{id}")
     public ResponseEntity<Void> transferByNumber(
