@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                             response.setStatus(HttpStatus.FORBIDDEN.value());
                         }))
                 .authorizeHttpRequests(auth->
-                    auth.requestMatchers("/users/create","/users/delete/")
+                    auth.requestMatchers("/users/create","/users/delete")
                             .permitAll()
                             .anyRequest()
                             .authenticated()
