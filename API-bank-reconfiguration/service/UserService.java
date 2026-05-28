@@ -10,6 +10,7 @@ import com.enterprise.bank_lies.repository.AccountUserRepository;
 import com.enterprise.bank_lies.repository.AddressRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +25,9 @@ public class UserService {
     @Autowired
     AccessToken accessToken;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Transactional
     public void toCreateAccount(UserDTO userDTO) {
         UserTable userTable = new UserTable();
@@ -32,7 +36,7 @@ public class UserService {
         userTable.setName(userDTO.getName());
         userTable.setEmail(userDTO.getEmail());
         userTable.setNumberOfUser(userDTO.getNumberOfUser());
-        userTable.setPassword(userDTO.getPassword());
+        userTable.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userTable.setDateOfBirth(userDTO.getDateOfBirth());
         addressOfUser.setCountryOfOrigin(userDTO.getCountry());
         addressOfUser.setState(userDTO.getState());
